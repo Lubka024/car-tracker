@@ -1,0 +1,366 @@
+{
+	"formatVersion": 4,
+	"modifications": [
+		{
+			"modification": "createEnum",
+			"enumName": "RidePurpose",
+			"values": [
+				"personal",
+				"corporate"
+			]
+		},
+		{
+			"modification": "createEnum",
+			"enumName": "UserRole",
+			"values": [
+				"driver"
+			]
+		},
+		{
+			"modification": "createEntity",
+			"entity": {
+				"name": "Car",
+				"unique": [],
+				"indexes": [],
+				"primary": "id",
+				"primaryColumn": "id",
+				"tableName": "car",
+				"eventLog": {
+					"enabled": true
+				},
+				"fields": {
+					"id": {
+						"name": "id",
+						"columnName": "id",
+						"type": "Uuid",
+						"columnType": "uuid",
+						"nullable": false
+					}
+				}
+			}
+		},
+		{
+			"modification": "createEntity",
+			"entity": {
+				"name": "Ride",
+				"unique": [],
+				"indexes": [],
+				"primary": "id",
+				"primaryColumn": "id",
+				"tableName": "ride",
+				"eventLog": {
+					"enabled": true
+				},
+				"fields": {
+					"id": {
+						"name": "id",
+						"columnName": "id",
+						"type": "Uuid",
+						"columnType": "uuid",
+						"nullable": false
+					}
+				}
+			}
+		},
+		{
+			"modification": "createEntity",
+			"entity": {
+				"name": "User",
+				"unique": [],
+				"indexes": [],
+				"primary": "id",
+				"primaryColumn": "id",
+				"tableName": "user",
+				"eventLog": {
+					"enabled": true
+				},
+				"fields": {
+					"id": {
+						"name": "id",
+						"columnName": "id",
+						"type": "Uuid",
+						"columnType": "uuid",
+						"nullable": false
+					}
+				}
+			}
+		},
+		{
+			"modification": "createColumn",
+			"entityName": "Car",
+			"field": {
+				"name": "model",
+				"columnName": "model",
+				"type": "String",
+				"nullable": true,
+				"columnType": "text"
+			}
+		},
+		{
+			"modification": "createColumn",
+			"entityName": "Car",
+			"field": {
+				"name": "licensePlate",
+				"columnName": "license_plate",
+				"type": "String",
+				"nullable": true,
+				"columnType": "text"
+			}
+		},
+		{
+			"modification": "createColumn",
+			"entityName": "Ride",
+			"field": {
+				"name": "personId",
+				"columnName": "person_id",
+				"type": "Uuid",
+				"nullable": true,
+				"columnType": "uuid"
+			}
+		},
+		{
+			"modification": "createColumn",
+			"entityName": "Ride",
+			"field": {
+				"name": "purpose",
+				"columnName": "purpose",
+				"type": "Enum",
+				"nullable": true,
+				"columnType": "RidePurpose"
+			}
+		},
+		{
+			"modification": "createColumn",
+			"entityName": "Ride",
+			"field": {
+				"name": "destination",
+				"columnName": "destination",
+				"type": "String",
+				"nullable": true,
+				"columnType": "text"
+			}
+		},
+		{
+			"modification": "createColumn",
+			"entityName": "Ride",
+			"field": {
+				"name": "endMileage",
+				"columnName": "end_mileage",
+				"type": "Integer",
+				"nullable": true,
+				"columnType": "integer"
+			}
+		},
+		{
+			"modification": "createColumn",
+			"entityName": "User",
+			"field": {
+				"name": "personId",
+				"columnName": "person_id",
+				"type": "Uuid",
+				"nullable": true,
+				"columnType": "uuid"
+			}
+		},
+		{
+			"modification": "createColumn",
+			"entityName": "User",
+			"field": {
+				"name": "name",
+				"columnName": "name",
+				"type": "String",
+				"nullable": true,
+				"columnType": "text"
+			}
+		},
+		{
+			"modification": "createColumn",
+			"entityName": "User",
+			"field": {
+				"name": "email",
+				"columnName": "email",
+				"type": "String",
+				"nullable": true,
+				"columnType": "text"
+			}
+		},
+		{
+			"modification": "createColumn",
+			"entityName": "User",
+			"field": {
+				"name": "role",
+				"columnName": "role",
+				"type": "Enum",
+				"nullable": true,
+				"columnType": "UserRole"
+			}
+		},
+		{
+			"modification": "createRelation",
+			"entityName": "Ride",
+			"owningSide": {
+				"type": "ManyHasOne",
+				"name": "car",
+				"target": "Car",
+				"inversedBy": "rides",
+				"joiningColumn": {
+					"columnName": "car_id",
+					"onDelete": "restrict"
+				},
+				"nullable": true
+			},
+			"inverseSide": {
+				"type": "OneHasMany",
+				"name": "rides",
+				"target": "Ride",
+				"ownedBy": "car"
+			}
+		},
+		{
+			"modification": "createRelation",
+			"entityName": "Ride",
+			"owningSide": {
+				"type": "ManyHasOne",
+				"name": "user",
+				"target": "User",
+				"inversedBy": "rides",
+				"joiningColumn": {
+					"columnName": "user_id",
+					"onDelete": "restrict"
+				},
+				"nullable": true
+			},
+			"inverseSide": {
+				"type": "OneHasMany",
+				"name": "rides",
+				"target": "Ride",
+				"ownedBy": "user"
+			}
+		},
+		{
+			"modification": "createUniqueConstraint",
+			"entityName": "Car",
+			"unique": {
+				"fields": [
+					"licensePlate"
+				],
+				"name": "unique_Car_licensePlate"
+			}
+		},
+		{
+			"modification": "createUniqueConstraint",
+			"entityName": "Ride",
+			"unique": {
+				"fields": [
+					"personId"
+				],
+				"name": "unique_Ride_personId"
+			}
+		},
+		{
+			"modification": "createUniqueConstraint",
+			"entityName": "User",
+			"unique": {
+				"fields": [
+					"personId",
+					"email"
+				],
+				"name": "unique_User_personId_email"
+			}
+		},
+		{
+			"modification": "patchAclSchema",
+			"patch": [
+				{
+					"op": "add",
+					"path": "/roles/driver",
+					"value": {
+						"variables": {
+							"personId": {
+								"type": "predefined",
+								"value": "personID"
+							}
+						},
+						"stages": "*",
+						"entities": {
+							"Car": {
+								"predicates": {},
+								"operations": {
+									"read": {
+										"model": true,
+										"licensePlate": true,
+										"rides": true
+									},
+									"update": {},
+									"create": {}
+								}
+							},
+							"Ride": {
+								"predicates": {
+									"predicateRidedriver ": {
+										"personId": "personId"
+									}
+								},
+								"operations": {
+									"read": {
+										"personId": "predicateRidedriver ",
+										"car": "predicateRidedriver ",
+										"purpose": "predicateRidedriver ",
+										"destination": "predicateRidedriver ",
+										"endMileage": "predicateRidedriver ",
+										"user": "predicateRidedriver "
+									},
+									"update": {
+										"personId": "predicateRidedriver ",
+										"car": "predicateRidedriver ",
+										"purpose": "predicateRidedriver ",
+										"destination": "predicateRidedriver ",
+										"endMileage": "predicateRidedriver ",
+										"user": "predicateRidedriver "
+									},
+									"create": {
+										"personId": "predicateRidedriver ",
+										"car": "predicateRidedriver ",
+										"purpose": "predicateRidedriver ",
+										"destination": "predicateRidedriver ",
+										"endMileage": "predicateRidedriver ",
+										"user": "predicateRidedriver "
+									}
+								}
+							},
+							"User": {
+								"predicates": {
+									"predicateUserdriver ": {
+										"personId": "personId"
+									}
+								},
+								"operations": {
+									"read": {
+										"personId": "predicateUserdriver ",
+										"name": "predicateUserdriver ",
+										"email": "predicateUserdriver ",
+										"role": "predicateUserdriver ",
+										"rides": "predicateUserdriver "
+									},
+									"update": {
+										"personId": "predicateUserdriver ",
+										"name": "predicateUserdriver ",
+										"email": "predicateUserdriver ",
+										"role": "predicateUserdriver ",
+										"rides": "predicateUserdriver "
+									}
+								}
+							}
+						},
+						"s3": {
+							"**": {
+								"upload": true,
+								"read": true
+							}
+						}
+					}
+				}
+			]
+		}
+	]
+}
